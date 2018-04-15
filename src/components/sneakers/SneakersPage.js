@@ -12,7 +12,7 @@ class SneakersPage extends React.Component {
         };
 
         this.onTitleChange = this.onTitleChange.bind(this);
-        this.onClickSave = this.onClickSave.bind(this);
+        this.onSave = this.onSave.bind(this);
     }
 
     onTitleChange(event) {
@@ -21,9 +21,10 @@ class SneakersPage extends React.Component {
         this.setState({sneaker: sneaker});
     }
 
-    onClickSave() {
+    onSave(event) {
+        event.preventDefault();
         this.props.actions.createSneaker(this.state.sneaker);
-        // this.setState({ title='' });
+        this.setState({sneaker: { title: ''}});
     }
 
     sneakerRow(sneaker, index) {
@@ -35,10 +36,12 @@ class SneakersPage extends React.Component {
             <div>
                 <h2>add sneaker</h2>
                 {this.props.sneakers.map(this.sneakerRow)}
-                <input type="text"
-                    onChange={this.onTitleChange}
-                    value={this.state.sneaker.title} />
-                <button type="submit" onClick={this.onClickSave}>Save</button>
+                <form onSubmit={this.onSave}>
+                    <input type="text"
+                        onChange={this.onTitleChange}
+                        value={this.state.sneaker.title} />
+                    <button type="submit">Save</button>
+                </form>
             </div>
         );
     }
